@@ -35,4 +35,12 @@ public class Expense {
         return category;
     }
 
+    public String toString(){
+        return "Wydatek{" +
+                "kiedy=" + time +
+                ", ile=" + amount +
+                ", za co=" + category +
+                '}';
+    }
+
 }
