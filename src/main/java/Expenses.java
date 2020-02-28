@@ -30,7 +30,7 @@ public class Expenses {
                         showExpensesFromCategory(expenses);
                     break;
                 case 4:
-//                        showExpensesGreaterThan(expenses);
+                        showExpensesGreaterThan(expenses);
                     break;
                 default:
                     System.out.println("Nie ma takiej opcja");
@@ -51,20 +51,25 @@ public class Expenses {
 
     private static Expense addExpnse() {
         System.out.println("Wpisz kwotę wydadków: ");
-        String amountString = scanner.nextLine();
-        while (!amountString.matches("\\d+(\\.\\d{1,2})?")) {
-            System.out.println("Podano niepoprawny format kwoty! Wpisz Popnownie: ");
-            amountString = scanner.nextLine();
-        }
+//        String amountString = scanner.nextLine();
+//        while (!amountString.matches("\\d+(\\.\\d{1,2})?")) {
+//            System.out.println("Podano niepoprawny format kwoty! Wpisz Popnownie: ");
+//            amountString = scanner.nextLine();
+//        }
+        BigDecimal amount = readAmount();
+        System.out.println("Podaj kategorię wydatków: ");
         Category category = readCategory();
-        System.out.printf("Kwota: %s, kategoria: %s\n", amountString, category.getName());
+//        System.out.printf("Kwota: %s, kategoria: %s\n", amountString, category.getName());
+//
+//        return new Expense(LocalDateTime.now(), new BigDecimal(amountString), category);
+        System.out.printf("Kwota: %s, kategoria: %s\n", amount, category.getName());
 
-        return new Expense(LocalDateTime.now(), new BigDecimal(amountString), category);
+        return new Expense(LocalDateTime.now(), amount, category);
     }
     private static void showExpensesAll(Expense[] expenses) {
-        if (expenses.length == 0) {
-            System.out.println("Brak wydatków!");
-        }
+//        if (expenses.length == 0) {
+//            System.out.println("Brak wydatków!");
+//        }
         for (Expense expense : expenses) {
             if (expense != null) {
                 System.out.println(expense.toString());
@@ -73,7 +78,7 @@ public class Expenses {
     }
 
         private  static Category readCategory() {
-            System.out.println("Wybierz (1-5) kategorię wydatków: ");
+//            System.out.println("Wybierz (1-5) kategorię wydatków: ");
 
             for (Category category : Expense.CATEGORIES) {
                 System.out.println(category.getNumber() + 1 + ". " + category.getName());
@@ -85,7 +90,17 @@ public class Expenses {
             }
             return Expense.CATEGORIES[Integer.parseInt(categoryString) - 1];
         }
+    private static BigDecimal readAmount() {
+        String amountString = scanner.nextLine();
+        while (!amountString.matches("\\d+(\\.\\d{1,2})?")) {
+            System.out.println("Nieprawidłowy format kwoty, wpisz ponownie!");
+            amountString = scanner.nextLine();
+        }
+        return new BigDecimal(amountString);
+    }
+
     private static void showExpensesFromCategory(Expense[] expenses) {
+        System.out.println("Podaj kategorię: ");
         Category category = readCategory();
         Expense [] expenseFromCategory = new Expense[100];
         int index = 0;
@@ -100,6 +115,20 @@ public class Expenses {
             }
         }
         showExpensesAll(expenseFromCategory);
+    }
+    private static void showExpensesGreaterThan(Expense[] expenses) {
+        System.out.println("Podaj minimalną kwotę");
+        BigDecimal minimum = readAmount();
+
+        Expense[] expensesGreaterThan = new Expense[100];
+        int index = 0;
+        for (Expense expense: expenses) {
+            if (expense != null && expense.getAmount().compareTo(minimum) > 0) {
+                expensesGreaterThan[index++] = expense;
+            }
+        }
+
+        showExpensesAll(expensesGreaterThan);
     }
 
 
