@@ -9,17 +9,17 @@ public class Expenses {
         System.out.println("WITAJ W PROGRAMIE WYDATKI!");
         Expense[] expenses = new Expense [100];
         int index = 0;
-        int option = -1;
+        int option;
         do {
             printMenu();
             String optionString = scanner.nextLine();
             while (!optionString.matches("[1-5]")) {
                 printMenu();
+                optionString = scanner.nextLine();
             }
             option = Integer.parseInt(optionString);
             switch (option) {
                 case 1:
-                    addExpnse();
                     expenses[index++] = addExpnse();
 
                     break;
@@ -32,8 +32,10 @@ public class Expenses {
                 case 4:
                         showExpensesGreaterThan(expenses);
                     break;
+                case 5:
+                    break;
                 default:
-                    System.out.println("Nie ma takiej opcja");
+                    System.out.println("Nie ma takiej opcji.");
             }
         } while (option != 5);
         System.out.println("Żegnaj!");
